@@ -25,9 +25,11 @@ SECRET_KEY = 'django-insecure-nr8$qsg7tsw2^$v-&ugn%xmp0h*&f5_rh5-dchf4-*j5=nu(6g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.29', '127.0.0.1']
 
 
+
+AUTH_USER_MODEL = 'django_app.User'
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,7 +85,7 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Users',
+        'NAME': 'djangobd',
         'USER': 'root',
         'PASSWORD': '20120512LiBuN',
         'HOST': 'localhost',
@@ -121,6 +123,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'django_app', 'static', 'videos')
+MEDIA_URL = '/videos/'
+
 
 
 # Static files (CSS, JavaScript, Images)

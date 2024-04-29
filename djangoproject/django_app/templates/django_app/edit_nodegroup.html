@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    {% for message in messages %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <h2 class="mb-4">
+        {% if nodegroup %}
+            {{ "Редактировать" }}
+        {% else %}
+            {{ "Создать новую" }}
+        {% endif %}
+        группу нодов
+    </h2>
+
+
+    <form method="post" action="{% if nodegroup and nodegroup.id %} {% url 'edit_nodegroup' nodegroup.id %}{% else %}{% url 'new_nodegroup' %}{% endif %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Название группы:</label>
+            <input type="text" class="form-control" id="name" name="name" 
+            value="{% if nodegroup %}{{ nodegroup.name }}{% endif %}" required>
+        </div>
+
+        <h3>Доступные ноды</h3>
+        <div class="form-group scrollable-checkbox-list">
+            {% for node in nodes %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="node_ids" value="{{ node.id }}" id="node_{{ node.id }}" 
+                {% if node in nodegroup.nodes.all %}checked{% endif %}>
+                <label class="form-check-label" for="node_{{ node.id }}">
+                    {{ node.name }} ({{ node.ip_address }})
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h3>Доступные события</h3>
+        <div class="form-group scrollable-checkbox-list">
+            {% for event in events %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="event_ids" value="{{ event.id }}" id="event_{{ event.id }}" 
+                {% if event.id in nodegroup.events.all %}checked{% endif %}>
+                <label class="form-check-label" for="event_{{ event.id }}">
+                    {{ event.schedule }} ({{ event.start_time }} - {{ event.end_time }})
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-success mb-3">Сохранить изменения</button>
+    </form>
+
+    <form action="{% url 'node_interface' %}" method="get" class="mt-2">
+        <button type="submit" class="btn btn-secondary">Назад</button>
+    </form>
+</div>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru" style="height: 100%; margin: 0;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Главная страница{% endblock %}</title>
+    <!-- Подключение Bootstrap CSS через CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Ваши стили */
+        body { font-family: 'Arial', sans-serif; background-color: #f2f2f2; text-align: center; }
+        button {
+            background-color: #007bff; color: white; border: none; padding: 10px 20px; margin-top: 20px; cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .scrollable-table { max-height: 300px; overflow-y: scroll; display: block; }
+
+        ul.flashes {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 15px;
+        }
+
+        ul.flashes li {
+            margin-left: 0;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+        
+        /* Пример стилей для различных типов сообщений */
+        .alert-info { background-color: #d9edf7; }
+        .alert-success { background-color: #dff0d8; }
+        .alert-warning { background-color: #fcf8e3; }
+        .alert-danger { background-color: #f2dede; }
+
+        .scrollable-checkbox-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .form-check {
+            width: 100%;
+            padding: 5px; /* Добавляем немного внутреннего отступа для лучшей визуализации */
+            margin-bottom: 5px;
+            background-color: #f8f9fa; /* Светлый фон для всех чекбоксов */
+        }
+
+        .form-check:nth-child(odd) {
+            background-color: #e9ecef; /* Чуть темнее фон для нечетных чекбоксов */
+        }
+
+        .scrollable-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px; /* Для отступа между списками и другими элементами */
+        }
+
+        #node-status-container {
+            max-height: 300px; /* Ограничиваем высоту контейнера */
+            overflow-y: auto; /* Добавляем вертикальную прокрутку */
+            background-color: #f8f9fa; /* Светлый фон */
+            border: 1px solid #ccc; /* Граница */
+            border-radius: 0.25rem; /* Скругленные углы */
+            padding: 15px; /* Внутренний отступ */
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+
+        /* Дополнительные стили */
+    </style>
+</head>
+
+<body style="min-height: 100%; margin: 0; display: flex; flex-direction: column;">
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Медиа Проигрыватель</a>
+        <span class="ml-auto">Версия 1.0.0 | Сделано с использованием Django</span>
+    </header>
+
+    <main role="main" class="container" style="flex: 1; display: flex; flex-direction: column;">
+
+        <ul class="flashes">
+            {% for message in messages %}
+            <li class="alert alert-{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+
+
+        {% block content %}
+        <!-- Содержимое отдельных страниц будет вставлено здесь -->
+        {% endblock %}
+    </main>
+
+    <footer class="footer bg-light py-3" style="flex-shrink: 0;">
+        <div class="container">
+            <span class="text-muted">© 2024 Студент, Все права защищены.</span>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

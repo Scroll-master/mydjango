@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if messages %}
+    <div class="alert alert-warning" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h2 class="mb-4">{{ media.id|yesno:"Редактировать медиафайл,Добавить новый медиафайл" }} медиафайл</h2>
+
+    <!-- Форма для редактирования или добавления медиа -->
+    {% if media %}
+<form action="{% if media.id %}{% url 'edit_media' media.id %}{% else %}{% url 'new_media' %}{% endif %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Поле ввода для тегов -->
+    <div class="form-group">
+        <label for="tags">Теги:</label>
+        <input type="text" class="form-control" id="tags" name="tags" value="{{ media.tags }}" placeholder="Введите теги">
+    </div>
+    {% if media.id %}
+    <!-- Блок для отображения текущего файла при редактировании -->
+    <div class="form-group">
+        <label>Текущий файл:</label>
+        <p class="form-control-static">{{ media.file.url }}</p>
+    </div>
+    {% else %}
+    <!-- Поле для загрузки файла при добавлении нового медиа -->
+    <div class="form-group">
+        <label for="media">Медиафайл:</label>
+        <input type="file" class="form-control-file" id="media" name="media" required accept=".mp4, .avi, .mp3">
+    </div>
+    {% endif %}
+    <!-- Кнопка для отправки формы -->
+    <button type="submit" class="btn btn-primary">
+        {% if media.id %}
+            Сохранить изменения
+        {% else %}
+            Загрузить
+        {% endif %}
+    </button>
+</form>
+{% else %}
+<form action="{% url 'new_media' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Поле ввода для тегов -->
+    <div class="form-group">
+        <label for="tags">Теги:</label>
+        <input type="text" class="form-control" id="tags" name="tags" placeholder="Введите теги">
+    </div>
+    <!-- Поле для загрузки файла при добавлении нового медиа -->
+    <div class="form-group">
+        <label for="media">Медиафайл:</label>
+        <input type="file" class="form-control-file" id="media" name="media" required accept=".mp4, .avi, .mp3">
+    </div>
+    <!-- Кнопка для отправки формы -->
+    <button type="submit" class="btn btn-primary">Загрузить</button>
+</form>
+{% endif %}
+    <!-- Кнопка возврата -->
+    <a href="{% url 'media_player' %}" class="btn btn-secondary mt-2">Назад</a>
+</div>
+{% endblock %}
+

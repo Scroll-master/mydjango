@@ -36,8 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'background_task',
+    'django_app.apps.DjangoAppConfig', # Правильно указанный путь к AppConfig
     'django.contrib.sessions',
-    'django_app',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'djangoproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'django_app', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'django_app', 'templates', 'django_app')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

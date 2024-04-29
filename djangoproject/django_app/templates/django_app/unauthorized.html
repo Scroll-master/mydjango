@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container h-100 d-flex flex-column justify-content-center">
+    <h2>Доступ запрещён</h2>
+    <p>Вы должны войти в систему для доступа к этой странице.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Перейти к входу</a>
+</div>
+{% endblock %}

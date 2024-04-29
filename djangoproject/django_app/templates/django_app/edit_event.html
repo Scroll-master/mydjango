@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <h2 class="mb-4">{% if event.id %}Редактировать{% else %}Создать новое{% endif %} событие</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <!-- Выбор расписания -->
+        <div class="form-group">
+            <label for="schedule">Расписание:</label>
+            <select id="schedule" name="schedule_id" class="form-control">
+                {% for schedule in schedules %}
+                <option value="{{ schedule.id }}">{{ schedule.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Выбор медиафайла -->
+        <div class="form-group">
+            <label for="media">Медиафайл:</label>
+            <select id="media" name="media_id" class="form-control">
+                {% for media in media_files %}
+                <option value="{{ media.id }}">{{ media.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Время начала события -->
+        <div class="form-group">
+            <label for="start_time">Время начала:</label>
+            <input type="datetime-local" class="form-control" id="start_time" name="start_time" required>
+        </div>
+        <!-- Время окончания события -->
+        <div class="form-group">
+            <label for="end_time">Время окончания:</label>
+            <input type="datetime-local" class="form-control" id="end_time" name="end_time" required>
+        </div>
+        <!-- Кнопки для отправки формы -->
+        <button type="submit" class="btn {% if event.id %}btn-info{% else %}btn-success{% endif %} mb-3">{% if event.id %}Обновить{% else %}Создать{% endif %}</button>
+    </form>
+    <!-- Кнопка возврата на предыдущую страницу -->
+    <form action="{% url 'super_admin_page' %}" method="get">
+        <button type="submit" class="btn btn-secondary">Назад</button>
+    </form>
+</div>
+{% endblock %}
+

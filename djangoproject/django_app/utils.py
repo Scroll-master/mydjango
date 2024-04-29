@@ -1,4 +1,6 @@
 
+import os
+
 
 def get_priority(schedule_type):
     priorities = {
@@ -15,3 +17,21 @@ def can_override(event_type, other_event_type):
         'повседневное': []
     }
     return other_event_type in overriding_rules[event_type]
+
+def get_saved_presets():
+    """Получает список сохраненных пресетов из папки сохранений."""
+    # Получаем базовую директорию проекта
+    from django.conf import settings
+
+    save_json_dir = os.path.join(settings.BASE_DIR, 'django_app', 'static', 'SaveJson')
+    
+    # Проверяем, существует ли директория
+    if not os.path.exists(save_json_dir):
+        return []
+
+    # Возвращаем список всех JSON файлов в директории
+    saved_presets = [f for f in os.listdir(save_json_dir) if f.endswith('.json')]
+    return saved_presets
+
+
+

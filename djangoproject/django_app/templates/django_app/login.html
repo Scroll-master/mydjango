@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Login</h2>
+
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+        <li class="alert alert-warning">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="POST" action="{% url 'login' %}" class="w-100 mx-auto mt-4 p-5 bg-white rounded shadow">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Введите имя пользователя" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль" required>
+        </div>
+        <input type="submit" class="btn btn-primary" value="login">
+    </form>
+</div>
+{% endblock %}
+
+

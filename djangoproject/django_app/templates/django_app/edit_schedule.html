@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+
+<h2>{{ schedule.id|yesno:"Редактировать,Создать новое" }} расписание</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="name">Название:</label>
+        <input type="text" id="name" name="name" value="{{ schedule.name|default:'' }}" required>
+    </div>
+    <div>
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" required>{{ schedule.description|default:'' }}</textarea>
+    </div>
+    <div>
+        <label for="type">Тип расписания:</label>
+        <select id="scheduleType" name="type">
+            <option value="повседневное" {% if schedule and schedule.type == "повседневное" %}selected{% endif %}>Повседневное</option>
+            <option value="исключение" {% if schedule and schedule.type == "исключение" %}selected{% endif %}>Исключение</option>
+            <option value="специальная дата" {% if schedule and schedule.type == "специальная дата" %}selected{% endif %}>Специальная дата</option>
+        </select>
+    </div>
+
+    <div id="dateTimeField" class="form-group" style="display:none;">
+      <label for="datetime">Дата и время:</label>
+      <input type="datetime-local" class="form-control" id="datetime" name="datetime" step="60">
+    </div>
+  
+    <button type="submit">Сохранить</button>
+</form>
+
+<form action="{% url 'super_admin_page' %}" method="get">
+  <button type="submit" class="btn btn-secondary">Назад</button>
+</form>
+
+<script>
+  document.getElementById("scheduleType").addEventListener("change", function() {
+    var value = this.value;
+    var dateTimeField = document.getElementById("dateTimeField");
+    var datetimeInput = document.getElementById("datetime");
+    if(value == "специальная дата") {
+      dateTimeField.style.display = "block";
+      datetimeInput.required = true; // Делаем поле обязательным для заполнения
+    } else {
+      dateTimeField.style.display = "none";
+      datetimeInput.required = false; // Убираем обязательность поля
+    }
+  });
+</script>
+{% endblock %}
+
